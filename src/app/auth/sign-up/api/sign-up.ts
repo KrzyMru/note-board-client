@@ -1,17 +1,19 @@
 import { AuthApiResponse, AuthFormData } from "../../types";
 
-const signUp = async (props: AuthFormData): Promise<AuthApiResponse> => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/sign-up`, {
+const signUp = async (formData: AuthFormData): Promise<AuthApiResponse> => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/sign-up`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
         },
-        body: JSON.stringify(props),
+        body: JSON.stringify(formData),
     });
-    const data = await response.json();
+
     if (!response.ok)
-        throw new Error(data);
+        throw response.status;
+
+    const data = await response.json();
     return data;
 }
 

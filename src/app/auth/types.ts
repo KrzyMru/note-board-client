@@ -7,8 +7,4 @@ interface AuthApiResponse {
     message: string,
 }
 
-interface ApiErrorResponse {
-    message: string,
-}
-
-export type { AuthFormData, AuthApiResponse, ApiErrorResponse }
+export type { AuthFormData, AuthApiResponse }

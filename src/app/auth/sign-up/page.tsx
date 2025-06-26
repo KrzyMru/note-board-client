@@ -6,7 +6,7 @@ const SignUp = () => {
     <div className="flex flex-col items-center">
       <SignUpForm />
       <div className="flex flex-wrap gap-x-1 mt-2">
-        <p className="text-xs text-[#ece5db] antialiased">Already have an account?</p>
+        <p className="text-xs text-[#f9f8f6] antialiased">Already have an account?</p>
         <Link 
           href={"/auth/sign-in"}
           className="text-xs text-[#927c6a] antialiased hover:text-[#6e5d4f] focus-visible:outline-2"

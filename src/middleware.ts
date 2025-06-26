@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   const isAuthPage = path.endsWith("sign-in") || path.endsWith("sign-up");
   if(accessToken) {
     if(isAuthPage)
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      return NextResponse.redirect(new URL("/dashboard/notes", request.url));
     return NextResponse.next();
   }
   else {
@@ -18,5 +18,5 @@ export function middleware(request: NextRequest) {
 }
  
 export const config = {
-  matcher: ["/dashboard", "/auth/sign-in", "/auth/sign-up"],
+  matcher: ["/dashboard/notes", "/dashboard/categories", "/auth/sign-in", "/auth/sign-up"],
 }

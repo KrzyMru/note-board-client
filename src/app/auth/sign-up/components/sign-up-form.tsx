@@ -3,7 +3,7 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AuthFormData } from "../../types";
 import { signUp } from "../api/sign-up";
-import LoadingLoop from "../../assets/loading-loop.svg";
+import LoadingLoop from "../../../assets/loading-loop.svg";
 import Image from "next/image";
 
 const SignInForm = () => {
@@ -32,21 +32,21 @@ const SignInForm = () => {
             <div className="flex flex-col space-y-3 mb-5">
                 <input 
                     title="Email"
-                    type="text"
+                    type="email"
                     placeholder="Email"
-                    className="shadow-sm text-sm text-[#957e6b] antialiased bg-[#dfd4c3] rounded-lg p-3 outline-white focus:outline-2"
+                    className="shadow-sm text-sm text-[#444444] antialiased bg-[#f7f4f1] rounded-lg p-3 outline-white focus:outline-2"
                     {...register("email", { required: "Email is required" })}
                 />
                 <input 
                     title="Password"
                     type="password"
                     placeholder="Password"
-                    className="shadow-sm text-sm text-[#957e6b] antialiased bg-[#dfd4c3] rounded-lg p-3 outline-white focus:outline-2"
+                    className="shadow-sm text-sm text-[#444444] antialiased bg-[#f7f4f1] rounded-lg p-3 outline-white focus:outline-2"
                     {...register("password", { required: "Password is required" })}
                 />
             </div>
             <button 
-                className="relative w-full bg-[#9e8c7e] rounded-md shadow-md p-2 outline-white [transition:filter_350ms] hover:bg-[#8a7a6e] active:bg-[#4f463f] disabled:pointer-events-none disabled:brightness-110 focus-visible:outline-2"
+                className="relative w-full bg-[#b49b87] rounded-md shadow-md p-2 outline-white [transition:filter_350ms] hover:bg-[#a38874] active:bg-[#8f705f] disabled:pointer-events-none disabled:brightness-110 focus-visible:outline-2"
                 title="Sign in"
                 type="submit"
                 disabled={loading}
