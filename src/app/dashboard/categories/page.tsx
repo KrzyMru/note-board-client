@@ -1,9 +1,7 @@
-const Categories = () => {
-  return (
-    <div className="flex-1 flex pl-4">
-      Categories
-    </div>
-  );
+import CategoriesContent from "./components/categories-content";
+
+const Page = () => {
+  return <CategoriesContent />;
 }
 
-export default Categories;
+export default Page;

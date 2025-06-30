@@ -1,7 +1,7 @@
 import NavigationBar from "./components/navigation-bar";
 import MainBanner from "./components/main-banner";
 
-const DashboardLayout = ({ children, }: Readonly<{children: React.ReactNode;}>) => {
+const Layout = ({ children, }: Readonly<{children: React.ReactNode;}>) => {
   return (
     <div className="h-screen w-screen bg-gradient-to-br from-[#fdfdfc] via-[#fef6e6] to-[#fbead1] p-10">
       <div className="h-full w-full flex rounded-xl shadow-xl bg-white overflow-hidden">
@@ -18,4 +18,4 @@ const DashboardLayout = ({ children, }: Readonly<{children: React.ReactNode;}>) 
   );
 }
 
-export default DashboardLayout;
+export default Layout;

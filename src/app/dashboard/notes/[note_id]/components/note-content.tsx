@@ -9,9 +9,12 @@ import NoteError from "./note-error";
 import { deleteNote } from "../api/delete-note";
 import { useRouter } from "next/navigation";
 import { Note } from "../../types";
+import { CategorySnippet } from "../../../../dashboard/categories/types";
+import { getCategorySnippet } from "../api/get-category-snippet";
 
 const NoteContent = ({ noteId }: { noteId: number }) => {
     const [note, setNote] = React.useState<Note|null>(null);
+    const [categorySnippet, setCategorySnippet] = React.useState<CategorySnippet|null>(null);
     const [loading, setLoading] = React.useState<boolean>(false);
     const [errorStatus, setErrorStatus] = React.useState<number|null>(null);
     const router = useRouter();
@@ -21,9 +24,11 @@ const NoteContent = ({ noteId }: { noteId: number }) => {
             setLoading(true);
             const delay = new Promise((resolve) => setTimeout(resolve, 850));
             try{
-                const response = await getNote(noteId);
+                const responseNote = await getNote(noteId);
+                const responseCategory = responseNote.categoryId ? await getCategorySnippet(responseNote.categoryId) : null;
                 await delay;
-                setNote(response);
+                setNote(responseNote);
+                setCategorySnippet(responseCategory);
             } catch (e: unknown) {
                 await delay;
                 if(typeof e === "number")
@@ -60,7 +65,23 @@ const NoteContent = ({ noteId }: { noteId: number }) => {
 
     return (
         <div className="flex-1 flex flex-col overflow-y-auto">
-            <div className="mt-8 bg-blue-100">tags here</div>
+            <div className="mt-8">
+            {
+                categorySnippet ?
+                <button 
+                    className={`w-full rounded-lg ${categorySnippet.backgroundColor} p-2 outline-none hover:cursor-pointer hover:shadow-sm`}
+                    title={`Go to category "${categorySnippet.name}"`}
+                    type="button"
+                    onClick={() => router.push(`/dashboard/categories/${categorySnippet.id}`)}
+                >
+                    <p className={`${categorySnippet.nameColor} bg-clip-text text-transparent text-lg text-center font-extrabold antialiased`}>{categorySnippet.name}</p>
+                </button>
+                :
+                <div className="bg-[#f0f4ff] rounded-lg p-2 outline-none">
+                    <p className="text-lg text-gray-400 text-center font-extrabold antialiased">No category</p>
+                </div>
+            }
+            </div>
             <div className="mt-5">
                 <h1 className="text-4xl text-gray-900 font-semibold antialiased">{note.title}</h1>
             </div>

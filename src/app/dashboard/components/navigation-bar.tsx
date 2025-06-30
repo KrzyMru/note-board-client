@@ -11,10 +11,9 @@ const NavigationBar = () => {
     return (
         <nav>
             <button 
-                className="flex w-full p-2 pl-10 outline-white [transition:box-shadow_350ms] hover:cursor-pointer hover:bg-gray-50 active:bg-gray-100 disabled:pointer-events-none disabled:shadow-[inset_3px_0_0_0] box-border focus-visible:outline-2"
+                className={`flex w-full p-2 pl-10 outline-white [transition:box-shadow_350ms] box-border ${currentPage.startsWith("/dashboard/notes") ? "shadow-[inset_3px_0_0_0]" : ""} hover:cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus-visible:outline-2`}
                 type="button"
                 title="See all notes"
-                disabled={currentPage.startsWith("/dashboard/notes")}
                 onClick={() => router.push("/dashboard/notes")}
             >
                 <Image 
@@ -25,10 +24,9 @@ const NavigationBar = () => {
                 <p className={`text-base font-semibold antialiased line-clamp-1 [transition:color_350ms] ${currentPage.startsWith("/dashboard/notes") ? "text-gray-900" : "text-gray-300"}`}>Notes</p>
             </button>
             <button
-                className="flex w-full p-2 pl-10 outline-white [transition:box-shadow_350ms] hover:cursor-pointer hover:bg-gray-50 active:bg-gray-100 disabled:pointer-events-none disabled:shadow-[inset_3px_0_0_0] box-border focus-visible:outline-2"
+                className={`flex w-full p-2 pl-10 outline-white [transition:box-shadow_350ms] box-border ${currentPage.startsWith("/dashboard/categories") ? "shadow-[inset_3px_0_0_0]" : ""} hover:cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus-visible:outline-2`}
                 type="button"
                 title="See all categories"
-                disabled={currentPage.startsWith("/dashboard/categories")}
                 onClick={() => router.push("/dashboard/categories")}
             >
                 <Image 

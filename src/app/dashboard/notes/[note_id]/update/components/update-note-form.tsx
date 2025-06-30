@@ -1,5 +1,5 @@
 "use client"
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { UpdateNoteFormData } from "../types";
 import React from "react";
 import Image from "next/image";
@@ -8,9 +8,17 @@ import { updateNote } from "../api/update-note";
 import { useRouter } from "next/navigation";
 import { Note } from "../../../types";
 import { getNote } from "../../api/get-note";
+import { CategorySnippet } from "../../../../../dashboard/categories/types";
+import { getCategorySnippets } from "../../../../../dashboard/categories/api/get-category-snippets";
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 
 const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<UpdateNoteFormData>();
+    const { register, handleSubmit, reset, control, formState: { errors } } = useForm<UpdateNoteFormData>({
+        defaultValues: {
+            categoryId: -1, // Keep value type consistent
+        }
+    });
+    const [categorySnippets, setCategorySnippets] = React.useState<CategorySnippet[]>([]);
     const [loadingNote, setLoadingNote] = React.useState<boolean>(false);
     const [loadingSubmit, setLoadingSubmit] = React.useState<boolean>(false);
     const [errorStatus, setErrorStatus] = React.useState<number|null>(null);
@@ -21,9 +29,11 @@ const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
             setLoadingNote(true);
             const delay = new Promise((resolve) => setTimeout(resolve, 850));
             try{
-                const response = await getNote(noteId);
+                const responseNote = await getNote(noteId);
+                const responseCategories = await getCategorySnippets();
                 await delay;
-                reset(response);
+                reset(responseNote);
+                setCategorySnippets(responseCategories);
             } catch (e: unknown) {
                 await delay;
                 if(typeof e === "number")
@@ -42,7 +52,9 @@ const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
         setLoadingSubmit(true);
         const delay = new Promise((resolve) => setTimeout(resolve, 350));
         try {
-            const response = await updateNote(formData);
+            const correctedCategoryId = Number(formData.categoryId) === -1 ? null : formData.categoryId; // For uncategorized null
+            const correctedPayload = { ...formData, categoryId: correctedCategoryId}
+            const response = await updateNote(correctedPayload);
             await delay;
             router.push(`/dashboard/notes/${response.id}`);
         } catch (e: unknown) { 
@@ -63,9 +75,9 @@ const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
             className="flex-1 flex flex-col"
         >
             <div className="flex-1 flex flex-col space-y-3">
+                <input type="hidden" {...register("id")} />
+                <input type="hidden" {...register("categoryId")} />
                 <div className="flex flex-col">
-                    <input type="hidden" {...register("id")} />
-                    <input type="hidden" {...register("categoryId")} />
                     <label 
                         htmlFor="title"
                         className="text-slate-700 text-xl font-semibold mb-1 tracking-wide"
@@ -97,6 +109,64 @@ const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
                         disabled={loadingNote || loadingSubmit}
                         className="resize-none flex-1 text-base text-slate-700 border-[#cbd5e1] border-1 antialiased bg-[#f0f4ff] rounded-lg p-3 outline-blue-400 [transition:background-color_350ms,color_350ms] disabled:bg-gray-50 disabled:text-gray-400 focus:outline-2"
                         {...register("text")}
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <Controller
+                        name="categoryId"
+                        control={control}
+                        render={({ field }) => {
+                            const selectedCategory = categorySnippets.find((cat) => cat.id === field.value);
+                            return (
+                                <Listbox 
+                                    value={field.value} 
+                                    onChange={field.onChange}
+                                >
+                                    <label 
+                                        htmlFor="category"
+                                        className="text-slate-700 text-xl font-semibold mb-1 tracking-wide"
+                                    >
+                                        Category
+                                    </label>
+                                    <ListboxButton
+                                        id="category"
+                                        title="Category"
+                                        disabled={loadingSubmit || loadingNote}
+                                        className={`${selectedCategory ? selectedCategory.backgroundColor : "bg-[#f0f4ff]"} border-[#cbd5e1] border-1 rounded-lg p-3 outline-blue-400 [transition:background-color_350ms,color_350ms] hover:cursor-pointer disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-default focus:outline-2`}
+                                    >
+                                        {
+                                            selectedCategory ? 
+                                            <p className={`${selectedCategory.nameColor} bg-clip-text text-transparent text-lg text-center font-extrabold antialiased`}>{selectedCategory.name}</p>
+                                            :
+                                            <p className="text-gray-900 text-lg text-center font-extrabold antialiased">No category</p>
+                                        }
+                                    </ListboxButton>
+                                    <ListboxOptions 
+                                        anchor="bottom"
+                                        className="mt-1 rounded-lg w-(--button-width) outline-none border-1 border-[#cbd5e1]"    
+                                    >
+                                        <ListboxOption 
+                                                key={"noCategory"} 
+                                                value={-1}
+                                                title="Select no category"
+                                                className="bg-[#f0f4ff] p-3 outline-none hover:cursor-pointer"
+                                            >
+                                                <p className="text-gray-900 text-lg text-center font-extrabold antialiased">No category</p>
+                                        </ListboxOption>
+                                        {categorySnippets.map((category) => (
+                                            <ListboxOption 
+                                                key={category.id} 
+                                                value={category.id} 
+                                                title={`Select ${category.name}`}
+                                                className={`${category.backgroundColor} p-3 outline-none hover:cursor-pointer`}
+                                            >
+                                                <p className={`${category.nameColor} bg-clip-text text-transparent text-lg text-center font-extrabold antialiased`}>{category.name}</p>
+                                            </ListboxOption>
+                                        ))}
+                                    </ListboxOptions>
+                                </Listbox>
+                            );
+                        }}
                     />
                 </div>
             </div>

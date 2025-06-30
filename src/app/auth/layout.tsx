@@ -1,7 +1,7 @@
 import Image from "next/image";
 import NotePad from "../../../public/note-pad.svg";
-//bg-[#e0d3c3]
-const AuthLayout = ({ children, }: Readonly<{children: React.ReactNode;}>) => {
+
+const Layout = ({ children, }: Readonly<{children: React.ReactNode;}>) => {
   return (
     <div className="h-screen w-screen flex justify-center items-center bg-gradient-to-br from-[#fdfdfc] via-[#fef6e6] to-[#fbead1]">
       <div className="bg-[#d8c5b2] p-6 rounded-xl shadow-xl">
@@ -21,4 +21,4 @@ const AuthLayout = ({ children, }: Readonly<{children: React.ReactNode;}>) => {
   );
 }
 
-export default AuthLayout;
+export default Layout;
