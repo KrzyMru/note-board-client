@@ -42,7 +42,7 @@ const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
             }
         }
         loadNote();
-    }, [noteId]);
+    }, [noteId, reset]);
 
     const onSubmit: SubmitHandler<UpdateNoteFormData> = async (formData) => {
         setLoadingSubmit(true);
