@@ -1,7 +1,7 @@
 import { fetchWithRefresh } from "@/app/utils/fetch-with-refresh";
-import { Note } from "../../types";
+import { DeleteNoteApiResponse } from "./types";
 
-const deleteNote = async (noteId: number): Promise<Note> => {
+const deleteNote = async (noteId: number): Promise<DeleteNoteApiResponse> => {
     const response = await fetchWithRefresh(`${process.env.NEXT_PUBLIC_SERVER_URL}/note/${noteId}`, {
         method: "DELETE",
         headers: {
@@ -10,10 +10,10 @@ const deleteNote = async (noteId: number): Promise<Note> => {
         credentials: "include",
     });
 
-    if (!response.ok)
-        throw response.status;
-
     const data = await response.json();
+    if (!response.ok)
+        throw new Error(data?.message);
+
     return data;
 }
 

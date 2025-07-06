@@ -5,8 +5,9 @@ import Image from "next/image";
 import LoadingLoop from "../../../../assets/loading-loop.svg";
 import { useRouter } from "next/navigation";
 import { NewCategoryFormData } from "../types";
-import TailwindPalette from "./tailwind-palette";
+import TailwindPalette from "../../components/tailwind-palette";
 import { createCategory } from "../api/create-category";
+import toast from "react-hot-toast";
 
 const NewCategoryForm = () => {
     const { register, handleSubmit, control, watch, formState: { errors } } = useForm<NewCategoryFormData>({
@@ -16,7 +17,6 @@ const NewCategoryForm = () => {
         }
     });
     const [loading, setLoading] = React.useState<boolean>(false);
-    const [errorStatus, setErrorStatus] = React.useState<number|null>(null);
     const router = useRouter();
 
     const onSubmit: SubmitHandler<NewCategoryFormData> = async (formData) => {
@@ -25,16 +25,12 @@ const NewCategoryForm = () => {
         try {
             const response = await createCategory(formData);
             await delay;
-            router.push(`/dashboard/categories/${response.id}`);
+            toast.success(response.message);
+            router.push(`/dashboard/categories/${response.category.id}`);
         } catch (e: unknown) { 
             await delay;
-            if(typeof e === "number")
-                setErrorStatus(e);
-            else
-                setErrorStatus(500);
-        }
-        finally {
             setLoading(false);
+            toast.error((e as Error).message);
         }
     }
 
@@ -56,14 +52,14 @@ const NewCategoryForm = () => {
                         Name
                     </label>
                     <input 
-                        required
                         id="name"
                         title="Name"
                         type="text"
                         placeholder="Name"
-                        className="text-base text-slate-700 border-[#cbd5e1] border-1 antialiased bg-[#f0f4ff] rounded-lg p-3 outline-blue-400 focus:outline-2"
+                        className="text-base text-gray-600 bg-gray-50 border-gray-200 border-1 shadow-sm antialiased rounded-lg p-3 outline-gray-500 focus:outline-2"
                         {...register("name", { required: "Name is required" })}
                     />
+                    {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
                 </div>
                 <div className="flex flex-col items-center">
                     <label 
@@ -76,7 +72,10 @@ const NewCategoryForm = () => {
                         name="backgroundColor"
                         control={control}
                         render={({ field }) => (
-                            <TailwindPalette value={field.value} onChange={field.onChange} />
+                            <TailwindPalette 
+                                value={field.value} 
+                                onChange={field.onChange} 
+                            />
                         )}
                     />
                 </div>
@@ -91,7 +90,10 @@ const NewCategoryForm = () => {
                         name="nameColor"
                         control={control}
                         render={({ field }) => (
-                            <TailwindPalette value={field.value} onChange={field.onChange} />
+                            <TailwindPalette 
+                                value={field.value} 
+                                onChange={field.onChange} 
+                            />
                         )}
                     />
                 </div>
@@ -106,12 +108,12 @@ const NewCategoryForm = () => {
             </div>
             <div className="flex justify-center mt-8">
                 <button 
-                    className="relative flex-1 bg-blue-400 p-3 rounded-lg outline-blue-700 [transition:filter_350ms] hover:bg-blue-500 hover:cursor-pointer disabled:pointer-events-none disabled:brightness-90 focus-visible:outline-2"
+                    className="relative flex-1 bg-slate-400 p-3 shadow-sm rounded-lg outline-slate-500 [transition:filter_350ms] hover:bg-slate-500 hover:cursor-pointer disabled:pointer-events-none disabled:brightness-110 focus-visible:outline-2"
                     title="Create category"
                     type="submit"
                     disabled={loading}
                 >
-                    <p className={`text-base text-white antialiased font-mono uppercase tracking-wide [transition:opacity_350ms] ${loading ? "opacity-0" : "opacity-100"}`}>Submit</p>
+                    <p className={`text-base text-white font-bold antialiased font-mono uppercase tracking-wide [transition:opacity_350ms] ${loading ? "opacity-0" : "opacity-100"}`}>Submit</p>
                     <Image 
                         src={LoadingLoop}
                         alt="Loading"

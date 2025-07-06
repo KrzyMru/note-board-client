@@ -1,8 +1,8 @@
 import { fetchWithRefresh } from "@/app/utils/fetch-with-refresh";
 import { UpdateNoteFormData } from "../types";
-import { Note } from "../../../types";
+import { UpdateNoteApiResponse } from "./types";
 
-const updateNote = async (formData: UpdateNoteFormData): Promise<Note> => {
+const updateNote = async (formData: UpdateNoteFormData): Promise<UpdateNoteApiResponse> => {
     const response = await fetchWithRefresh(`${process.env.NEXT_PUBLIC_SERVER_URL}/note/update`, {
         method: "PUT",
         headers: {
@@ -13,10 +13,10 @@ const updateNote = async (formData: UpdateNoteFormData): Promise<Note> => {
         body: JSON.stringify(formData),
     });
 
-    if (!response.ok)
-        throw response.status;
-
     const data = await response.json();
+    if (!response.ok)
+        throw new Error(data?.message);
+
     return data;
 }
 

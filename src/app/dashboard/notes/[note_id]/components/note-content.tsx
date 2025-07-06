@@ -1,22 +1,21 @@
 "use client"
 import React from "react";
 import { getNote } from "../api/get-note";
-import EditOutline from "./assets/edit-outline.svg";
-import DeleteOutline from "./assets/delete-outline.svg";
+import EditOutline from "../../../assets/edit-outline.svg";
+import DeleteOutline from "../../../assets/delete-outline.svg";
 import Image from "next/image";
 import NoteSkeleton from "./note-skeleton";
-import NoteError from "./note-error";
 import { deleteNote } from "../api/delete-note";
 import { useRouter } from "next/navigation";
 import { Note } from "../../types";
 import { CategorySnippet } from "../../../../dashboard/categories/types";
 import { getCategorySnippet } from "../api/get-category-snippet";
+import toast from "react-hot-toast";
 
 const NoteContent = ({ noteId }: { noteId: number }) => {
     const [note, setNote] = React.useState<Note|null>(null);
     const [categorySnippet, setCategorySnippet] = React.useState<CategorySnippet|null>(null);
     const [loading, setLoading] = React.useState<boolean>(false);
-    const [errorStatus, setErrorStatus] = React.useState<number|null>(null);
     const router = useRouter();
 
     React.useEffect(() => {
@@ -31,10 +30,7 @@ const NoteContent = ({ noteId }: { noteId: number }) => {
                 setCategorySnippet(responseCategory);
             } catch (e: unknown) {
                 await delay;
-                if(typeof e === "number")
-                    setErrorStatus(e);
-                else
-                    setErrorStatus(500);
+                toast.error((e as Error).message);
             }
             finally {
                 setLoading(false);
@@ -49,27 +45,24 @@ const NoteContent = ({ noteId }: { noteId: number }) => {
         try{
             const response = await deleteNote(noteId);
             await delay;
+            toast.success(response.message);
             router.push("/dashboard/notes");
         } catch (e: unknown) {
             await delay;
             setLoading(false);
-            if(typeof e === "number")
-                setErrorStatus(e);
-            else
-                setErrorStatus(500);
+            toast.error((e as Error).message);
         }
     }
 
-    if(errorStatus) return <NoteError status={errorStatus} />;
     if(!note) return <NoteSkeleton />;
 
     return (
         <div className="flex-1 flex flex-col overflow-y-auto">
-            <div className="mt-8">
+            <div className="mt-8 mx-1">
             {
                 categorySnippet ?
                 <button 
-                    className={`w-full rounded-lg ${categorySnippet.backgroundColor} p-2 outline-none hover:cursor-pointer hover:shadow-sm`}
+                    className={`w-full rounded-lg ${categorySnippet.backgroundColor} p-2 shadow-sm outline-gray-500 hover:cursor-pointer hover:shadow-md focus-visible:outline-2`}
                     title={`Go to category "${categorySnippet.name}"`}
                     type="button"
                     onClick={() => router.push(`/dashboard/categories/${categorySnippet.id}`)}
@@ -95,7 +88,7 @@ const NoteContent = ({ noteId }: { noteId: number }) => {
                     :
                     <>
                         <button 
-                            className="bg-gray-100 rounded-full p-3 hover:shadow-sm hover:cursor-pointer"
+                            className="bg-gray-100 rounded-full p-3 outline-gray-500 hover:shadow-sm hover:cursor-pointer focus-visible:outline-2"
                             title="Edit note"
                             type="button"
                             onClick={() => router.push(`/dashboard/notes/${note.id}/update`)}
@@ -107,7 +100,7 @@ const NoteContent = ({ noteId }: { noteId: number }) => {
                             />
                         </button>
                         <button 
-                            className="bg-gray-100 rounded-full p-3 hover:shadow-sm hover:cursor-pointer"
+                            className="bg-gray-100 rounded-full p-3 outline-gray-500 hover:shadow-sm hover:cursor-pointer focus-visible:outline-2"
                             title="Delete note"
                             type="button"
                             onClick={handleDeleteNote}

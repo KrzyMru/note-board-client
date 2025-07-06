@@ -10,10 +10,10 @@ const getNote = async (noteId: number): Promise<Note> => {
         credentials: "include",
     });
 
-    if (!response.ok)
-        throw response.status;
-
     const data = await response.json();
+    if (!response.ok)
+        throw new Error(data?.message);
+
     return data;
 }
 

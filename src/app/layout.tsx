@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: "Note Board",
@@ -11,6 +12,7 @@ const RootLayout = ({ children, }: Readonly<{children: React.ReactNode;}>) => {
     <html lang="en">
       <body>
           {children}
+          <Toaster position="bottom-right" />
       </body>
     </html>
   );

@@ -6,11 +6,11 @@ import Image from "next/image";
 import LoadingLoop from "../../../../../assets/loading-loop.svg";
 import { updateNote } from "../api/update-note";
 import { useRouter } from "next/navigation";
-import { Note } from "../../../types";
 import { getNote } from "../../api/get-note";
 import { CategorySnippet } from "../../../../../dashboard/categories/types";
 import { getCategorySnippets } from "../../../../../dashboard/categories/api/get-category-snippets";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
+import toast from "react-hot-toast";
 
 const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
     const { register, handleSubmit, reset, control, formState: { errors } } = useForm<UpdateNoteFormData>({
@@ -21,7 +21,6 @@ const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
     const [categorySnippets, setCategorySnippets] = React.useState<CategorySnippet[]>([]);
     const [loadingNote, setLoadingNote] = React.useState<boolean>(false);
     const [loadingSubmit, setLoadingSubmit] = React.useState<boolean>(false);
-    const [errorStatus, setErrorStatus] = React.useState<number|null>(null);
     const router = useRouter();
 
     React.useEffect(() => {
@@ -36,10 +35,7 @@ const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
                 setCategorySnippets(responseCategories);
             } catch (e: unknown) {
                 await delay;
-                if(typeof e === "number")
-                    setErrorStatus(e);
-                else
-                    setErrorStatus(500);
+                toast.error((e as Error).message);
             }
             finally {
                 setLoadingNote(false);
@@ -56,16 +52,12 @@ const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
             const correctedPayload = { ...formData, categoryId: correctedCategoryId}
             const response = await updateNote(correctedPayload);
             await delay;
-            router.push(`/dashboard/notes/${response.id}`);
+            toast.success(response.message);
+            router.push(`/dashboard/notes/${response.note.id}`);
         } catch (e: unknown) { 
             await delay;
-            if(typeof e === "number")
-                setErrorStatus(e);
-            else
-                setErrorStatus(500);
-        }
-        finally {
             setLoadingSubmit(false);
+            toast.error((e as Error).message);
         }
     }
 
@@ -85,15 +77,15 @@ const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
                         Title
                     </label>
                     <input 
-                        required
                         id="title"
                         title="Title"
                         type="text"
                         placeholder="Title"
                         disabled={loadingNote || loadingSubmit}
-                        className="text-base text-slate-700 border-[#cbd5e1] border-1 antialiased bg-[#f0f4ff] rounded-lg p-3 outline-blue-400 [transition:background-color_350ms,color_350ms] disabled:bg-gray-50 disabled:text-gray-400 focus:outline-2"
+                        className="text-base text-gray-600 bg-gray-50 border-gray-200 border-1 shadow-sm antialiased rounded-lg p-3 outline-gray-500 [transition:background-color_350ms,color_350ms] disabled:bg-gray-50 disabled:text-gray-400 focus:outline-2"
                         {...register("title", { required: "Title is required" })}
                     />
+                    {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
                 </div>
                 <div className="flex-1 flex flex-col">
                     <label 
@@ -107,7 +99,7 @@ const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
                         title="Text"
                         placeholder="Text"
                         disabled={loadingNote || loadingSubmit}
-                        className="resize-none flex-1 text-base text-slate-700 border-[#cbd5e1] border-1 antialiased bg-[#f0f4ff] rounded-lg p-3 outline-blue-400 [transition:background-color_350ms,color_350ms] disabled:bg-gray-50 disabled:text-gray-400 focus:outline-2"
+                        className="resize-none flex-1 text-base text-gray-600 bg-gray-50 border-gray-200 border-1 shadow-smantialiased rounded-lg p-3 outline-gray-500 [transition:background-color_350ms,color_350ms] disabled:bg-gray-50 disabled:text-gray-400 focus:outline-2"
                         {...register("text")}
                     />
                 </div>
@@ -132,18 +124,18 @@ const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
                                         id="category"
                                         title="Category"
                                         disabled={loadingSubmit || loadingNote}
-                                        className={`${selectedCategory ? selectedCategory.backgroundColor : "bg-[#f0f4ff]"} border-[#cbd5e1] border-1 rounded-lg p-3 outline-blue-400 [transition:background-color_350ms,color_350ms] hover:cursor-pointer disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-default focus:outline-2`}
+                                        className={`${selectedCategory ? selectedCategory.backgroundColor : "bg-[#f0f4ff]"} shadow-sm rounded-lg p-3 outline-gray-500 rounded-lg p-3 [transition:background-color_350ms,color_350ms] hover:cursor-pointer disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-default focus:outline-2`}
                                     >
                                         {
                                             selectedCategory ? 
                                             <p className={`${selectedCategory.nameColor} bg-clip-text text-transparent text-lg text-center font-extrabold antialiased`}>{selectedCategory.name}</p>
                                             :
-                                            <p className="text-gray-900 text-lg text-center font-extrabold antialiased">No category</p>
+                                            <p className="text-gray-400 text-lg text-center font-extrabold antialiased">No category</p>
                                         }
                                     </ListboxButton>
                                     <ListboxOptions 
-                                        anchor="bottom"
-                                        className="mt-1 rounded-lg w-(--button-width) outline-none border-1 border-[#cbd5e1]"    
+                                        anchor="top"
+                                        className="mb-1 rounded-lg w-(--button-width) outline-none border-2 border-gray-500"    
                                     >
                                         <ListboxOption 
                                                 key={"noCategory"} 
@@ -151,7 +143,7 @@ const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
                                                 title="Select no category"
                                                 className="bg-[#f0f4ff] p-3 outline-none hover:cursor-pointer"
                                             >
-                                                <p className="text-gray-900 text-lg text-center font-extrabold antialiased">No category</p>
+                                                <p className="text-gray-400 text-lg text-center font-extrabold antialiased">No category</p>
                                         </ListboxOption>
                                         {categorySnippets.map((category) => (
                                             <ListboxOption 
@@ -172,12 +164,12 @@ const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
             </div>
             <div className="flex justify-center mt-8">
                 <button 
-                    className="relative flex-1 bg-blue-400 p-3 rounded-lg outline-blue-700 [transition:filter_350ms] hover:bg-blue-500 hover:cursor-pointer disabled:pointer-events-none disabled:brightness-90 focus-visible:outline-2"
+                    className="relative flex-1 bg-slate-400 p-3 shadow-sm rounded-lg outline-slate-500 [transition:filter_350ms] hover:bg-slate-500 hover:cursor-pointer disabled:pointer-events-none disabled:brightness-110 focus-visible:outline-2"
                     title="Update note"
                     type="submit"
                     disabled={loadingNote || loadingSubmit}
                 >
-                    <p className={`text-base text-white antialiased font-mono uppercase tracking-wide [transition:opacity_350ms] ${!loadingNote && loadingSubmit ? "opacity-0" : "opacity-100"}`}>Submit</p>
+                    <p className={`text-base text-white font-bold antialiased font-mono uppercase tracking-wide [transition:opacity_350ms] ${!loadingNote && loadingSubmit ? "opacity-0" : "opacity-100"}`}>Submit</p>
                     <Image 
                         src={LoadingLoop}
                         alt="Loading"

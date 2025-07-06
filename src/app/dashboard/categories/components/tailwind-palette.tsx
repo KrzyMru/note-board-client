@@ -1,4 +1,5 @@
 import React from "react";
+import { TailwindPaletteProps } from "./types";
 
 const colors = [
     "bg-gray-200", "bg-stone-200", "bg-red-200", "bg-orange-200", "bg-amber-200", "bg-yellow-200", "bg-lime-200", "bg-green-200", "bg-emerald-200", "bg-teal-200", "bg-cyan-200", "bg-sky-200", "bg-blue-200", "bg-indigo-200", "bg-violet-200", "bg-purple-200", "bg-fuchsia-200", "bg-pink-200", "bg-rose-200",
@@ -11,21 +12,27 @@ const colors = [
 ];
 
 const TailwindPalette = (props: TailwindPaletteProps) => {
-    const { value, onChange } = { ...props }
+    const { value, onChange, disabled } = { ...props }
     const [selected, setSelected] = React.useState<string>(value);
+
     const handleSelect = (tailwindColor: string) => {
         setSelected(tailwindColor);
         onChange(tailwindColor);
     }
 
+    React.useEffect(() => {
+        setSelected(value);
+    }, [value]);
+
     return (
-        <ul className="grid w-fit [grid-template-columns:repeat(19,1.25rem)] bg-gray-50 rounded-lg border-[#cbd5e1] border-1 p-2">
+        <ul className="grid w-fit [grid-template-columns:repeat(19,1.25rem)] bg-gray-50 rounded-lg border-[#cbd5e1] border-1 p-2 shadow-sm">
             {
                 colors.map((color) => (
                     <button
                         key={color}
                         type="button"
-                        className={`size-5 ${color} ${selected === color ? "border-3 border-black" : "border-1 border-gray-300"} hover:cursor-pointer`}
+                        disabled={disabled}
+                        className={`size-5 ${color} ${selected === color ? "border-3 border-black" : "border-1 border-gray-300 focus-visible:border-2 focus-visible:border-gray-600"} outline-none disabled:cursor-default hover:cursor-pointer`}
                         onClick={() => handleSelect(color)}
                         title={color}
                     />

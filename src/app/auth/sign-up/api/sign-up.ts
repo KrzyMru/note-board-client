@@ -10,10 +10,10 @@ const signUp = async (formData: AuthFormData): Promise<AuthApiResponse> => {
         body: JSON.stringify(formData),
     });
 
-    if (!response.ok)
-        throw response.status;
-
     const data = await response.json();
+    if (!response.ok)
+        throw new Error(data?.message);
+
     return data;
 }
 

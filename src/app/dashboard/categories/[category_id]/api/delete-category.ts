@@ -1,7 +1,7 @@
 import { fetchWithRefresh } from "@/app/utils/fetch-with-refresh";
-import { Category } from "../../types";
+import { DeleteCategoryApiResponse } from "./types";
 
-const deleteCategory = async (categoryId: number): Promise<Category> => {
+const deleteCategory = async (categoryId: number): Promise<DeleteCategoryApiResponse> => {
     const response = await fetchWithRefresh(`${process.env.NEXT_PUBLIC_SERVER_URL}/category/${categoryId}`, {
         method: "DELETE",
         headers: {
@@ -10,10 +10,10 @@ const deleteCategory = async (categoryId: number): Promise<Category> => {
         credentials: "include",
     });
 
-    if (!response.ok)
-        throw response.status;
-
     const data = await response.json();
+    if (!response.ok)
+        throw new Error(data?.message);
+
     return data;
 }
 

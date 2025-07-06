@@ -1,8 +1,8 @@
 import { fetchWithRefresh } from "@/app/utils/fetch-with-refresh";
 import { UpdateCategoryFormData } from "../types";
-import { Category } from "../../../types";
+import { UpdateCategoryApiResponse } from "./types";
 
-const updateCategory = async (formData: UpdateCategoryFormData): Promise<Category> => {
+const updateCategory = async (formData: UpdateCategoryFormData): Promise<UpdateCategoryApiResponse> => {
     const response = await fetchWithRefresh(`${process.env.NEXT_PUBLIC_SERVER_URL}/category/update`, {
         method: "PUT",
         headers: {
@@ -13,10 +13,10 @@ const updateCategory = async (formData: UpdateCategoryFormData): Promise<Categor
         body: JSON.stringify(formData),
     });
 
-    if (!response.ok)
-        throw response.status;
-
     const data = await response.json();
+    if (!response.ok)
+        throw new Error(data?.message);
+
     return data;
 }
 

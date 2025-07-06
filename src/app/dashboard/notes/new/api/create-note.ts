@@ -1,8 +1,8 @@
 import { fetchWithRefresh } from "@/app/utils/fetch-with-refresh";
-import { Note } from "../../types";
 import { NewNoteFormData } from "../types";
+import { NewNoteApiResponse } from "./types";
 
-const createNote = async (formData: NewNoteFormData): Promise<Note> => {
+const createNote = async (formData: NewNoteFormData): Promise<NewNoteApiResponse> => {
     const response = await fetchWithRefresh(`${process.env.NEXT_PUBLIC_SERVER_URL}/note/create`, {
         method: "POST",
         headers: {
@@ -13,10 +13,10 @@ const createNote = async (formData: NewNoteFormData): Promise<Note> => {
         credentials: "include",
     });
 
-    if (!response.ok)
-        throw response.status;
-
     const data = await response.json();
+    if (!response.ok)
+        throw new Error(data?.message);
+
     return data;
 }
 

@@ -5,10 +5,13 @@ import { AuthFormData } from "../../types";
 import { signUp } from "../api/sign-up";
 import LoadingLoop from "../../../assets/loading-loop.svg";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const SignInForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<AuthFormData>();
     const [loading, setLoading] = React.useState<boolean>(false);
+    const router = useRouter();
 
     const onSubmit: SubmitHandler<AuthFormData> = async (formData) => {
         setLoading(true);
@@ -16,11 +19,12 @@ const SignInForm = () => {
         try {
             const response = await signUp(formData);
             await delay;
+            toast.success(response.message);
+            router.push("/auth/sign-in");
         } catch (e: unknown) { 
             await delay;
-        }
-        finally {
             setLoading(false);
+            toast.error((e as Error).message);
         }
     }
 
@@ -34,24 +38,26 @@ const SignInForm = () => {
                     title="Email"
                     type="email"
                     placeholder="Email"
-                    className="shadow-sm text-sm text-[#444444] antialiased bg-[#f7f4f1] rounded-lg p-3 outline-white focus:outline-2"
+                    className="shadow-sm text-sm text-gray-500 antialiased bg-gray-100 rounded-lg p-3 outline-gray-400 focus:outline-2"
                     {...register("email", { required: "Email is required" })}
                 />
+                {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
                 <input 
                     title="Password"
                     type="password"
                     placeholder="Password"
-                    className="shadow-sm text-sm text-[#444444] antialiased bg-[#f7f4f1] rounded-lg p-3 outline-white focus:outline-2"
+                    className="shadow-sm text-sm text-gray-500 antialiased bg-gray-100 rounded-lg p-3 outline-gray-400 focus:outline-2"
                     {...register("password", { required: "Password is required" })}
                 />
+                {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
             </div>
             <button 
-                className="relative w-full bg-[#b49b87] rounded-md shadow-md p-2 outline-white [transition:filter_350ms] hover:bg-[#a38874] active:bg-[#8f705f] disabled:pointer-events-none disabled:brightness-110 focus-visible:outline-2"
+                className="relative w-full bg-slate-400 shadow-sm rounded-lg p-2 outline-slate-500 [transition:filter_350ms] hover:bg-slate-500 hover:cursor-pointer disabled:pointer-events-none disabled:brightness-110 focus-visible:outline-2"
                 title="Sign in"
                 type="submit"
                 disabled={loading}
             >
-                <p className={`text-sm text-white antialiased [transition:opacity_350ms] ${loading ? "opacity-0" : "opacity-100"}`}>Sign up</p>
+                <p className={`text-sm font-bold text-white antialiased [transition:opacity_350ms] ${loading ? "opacity-0" : "opacity-100"}`}>Sign up</p>
                 <Image 
                     src={LoadingLoop}
                     alt="Loading"
