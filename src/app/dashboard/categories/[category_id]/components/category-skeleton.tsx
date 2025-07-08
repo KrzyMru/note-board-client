@@ -14,7 +14,6 @@ const CategorySkeleton = () => {
             <ul className="flex justify-end space-x-5 pt-5 pb-8 px-4">
                 <div className="rounded-full bg-gray-100 p-6" />
                 <div className="rounded-full bg-gray-100 p-6" />
-                <div className="rounded-full bg-gray-100 p-6" />
             </ul>
         </div>
     );

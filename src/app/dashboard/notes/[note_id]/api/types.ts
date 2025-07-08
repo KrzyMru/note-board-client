@@ -1,5 +1,12 @@
+import { Note } from "../../types"
+
 interface DeleteNoteApiResponse {
     message: string,
 }
 
-export type { DeleteNoteApiResponse }
+interface TogglePinNoteApiResponse {
+    note: Note,
+    message: string,
+}
+
+export type { DeleteNoteApiResponse, TogglePinNoteApiResponse }

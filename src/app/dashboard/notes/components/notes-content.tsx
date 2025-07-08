@@ -72,19 +72,40 @@ const NotesContent = () => {
                                 <NoteSkeleton />
                             </li>
                         ) :
-                        noteSnippets.filter(note => note.title.includes(searchText)).map((note) => (
-                            <li key={note.id}>
-                                <button 
-                                    className="w-full min-h-35 flex flex-col bg-gray-50 rounded-xl p-5 space-y-2 shadow-sm outline-gray-500 hover:cursor-pointer hover:shadow-md focus-visible:outline-2"
-                                    title={`Select ${note.title}`}
-                                    type="button"
-                                    onClick={() => router.push(`/dashboard/notes/${note.id}`)}
-                                >
-                                    <p className="text-base text-left text-gray-900 font-semibold antialiased line-clamp-1">{note.title}</p>
-                                    <p className="text-sm text-left text-gray-400 antialiased line-clamp-2">{note.text}</p>
-                                </button>
-                            </li>
-                        ))
+                        noteSnippets
+                            .filter(note => note.title.includes(searchText))
+                            .sort((a, b) => {
+                                if (a.pinned === b.pinned)
+                                    return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
+                                else
+                                    return Number(b.pinned) - Number(a.pinned);
+                            })
+                            .map((note) => {
+                                const noteCreationDate = new Date(note.creationDate).toLocaleString("en-US", {
+                                    day: "2-digit",
+                                    month: "2-digit",
+                                    year: "numeric",
+                                });
+                                return (
+                                    <li key={note.id}>
+                                        <button 
+                                            className="w-full relative min-h-35 flex flex-col bg-gray-50 rounded-xl p-5 space-y-2 shadow-sm outline-gray-500 hover:cursor-pointer hover:shadow-md focus-visible:outline-2"
+                                            title={`Select ${note.title}`}
+                                            type="button"
+                                            onClick={() => router.push(`/dashboard/notes/${note.id}`)}
+                                        >
+                                            {note.pinned &&
+                                                <div className="absolute top-1 right-1 size-5 shadow-sm rounded-full flex items-center justify-center bg-amber-300/70">
+                                                    <div className="size-2 shadow-sm rounded-full bg-black"></div>
+                                                </div>
+                                            }
+                                            <p className="text-base text-left text-gray-900 font-semibold antialiased line-clamp-1">{note.title}</p>
+                                            <p className="flex-1 text-sm text-left text-gray-400 antialiased line-clamp-3">{note.text}</p>
+                                            <p className="-mb-4 text-xs text-right text-gray-400 italic antialiased line-clamp-2">{noteCreationDate}</p>
+                                        </button>
+                                    </li>
+                                )
+                            })
                     }
                 </ul>
             </div>

@@ -3,6 +3,8 @@ import React from "react";
 import { getNote } from "../api/get-note";
 import EditOutline from "../../../assets/edit-outline.svg";
 import DeleteOutline from "../../../assets/delete-outline.svg";
+import PinOutline from "../assets/pin-outline.svg";
+import UnpinOutline from "../assets/unpin-outline.svg";
 import Image from "next/image";
 import NoteSkeleton from "./note-skeleton";
 import { deleteNote } from "../api/delete-note";
@@ -11,6 +13,7 @@ import { Note } from "../../types";
 import { CategorySnippet } from "../../../../dashboard/categories/types";
 import { getCategorySnippet } from "../api/get-category-snippet";
 import toast from "react-hot-toast";
+import { togglePinNote } from "../api/toggle-pin-note";
 
 const NoteContent = ({ noteId }: { noteId: number }) => {
     const [note, setNote] = React.useState<Note|null>(null);
@@ -54,7 +57,30 @@ const NoteContent = ({ noteId }: { noteId: number }) => {
         }
     }
 
+    const handleTogglePinNote = async () => {
+        setLoading(true);
+        const delay = new Promise((resolve) => setTimeout(resolve, 850));
+        try{
+            const response = await togglePinNote(noteId);
+            await delay;
+            toast.success(response.message);
+            setNote(response.note);
+        } catch (e: unknown) {
+            await delay;
+            toast.error((e as Error).message);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+
     if(!note) return <NoteSkeleton />;
+
+    const noteCreationDate = new Date(note.creationDate).toLocaleString("en-US", {
+        dateStyle: "full",
+        timeStyle: "short",
+        hour12: false,
+    });
 
     return (
         <div className="flex-1 flex flex-col overflow-y-auto">
@@ -76,6 +102,7 @@ const NoteContent = ({ noteId }: { noteId: number }) => {
             }
             </div>
             <div className="mt-5">
+                <p className="text-xs text-gray-400 italic antialiased">{noteCreationDate}</p>
                 <h1 className="text-4xl text-gray-900 font-semibold antialiased">{note.title}</h1>
             </div>
             <div className="flex-1 mt-5">
@@ -87,6 +114,18 @@ const NoteContent = ({ noteId }: { noteId: number }) => {
                         <div className="animate-pulse flex-1 h-[16px] my-4 bg-sky-200 rounded-md [transition:background-color_350ms]" />
                     :
                     <>
+                        <button 
+                            className="bg-gray-100 rounded-full p-3 outline-gray-500 hover:shadow-sm hover:cursor-pointer focus-visible:outline-2"
+                            title={note.pinned ? "Unpin note" : "Pin note"}
+                            type="button"
+                            onClick={handleTogglePinNote}
+                        >
+                            <Image 
+                                src={note.pinned ? UnpinOutline : PinOutline}
+                                alt={note.pinned ? "Unpin" : "Pin"}
+                                className="size-[24px]"
+                            />
+                        </button>
                         <button 
                             className="bg-gray-100 rounded-full p-3 outline-gray-500 hover:shadow-sm hover:cursor-pointer focus-visible:outline-2"
                             title="Edit note"
