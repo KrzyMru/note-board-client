@@ -99,7 +99,7 @@ const UpdateNoteForm = ({ noteId }: { noteId: number }) => {
                         title="Text"
                         placeholder="Text"
                         disabled={loadingNote || loadingSubmit}
-                        className="resize-none flex-1 text-base text-gray-600 bg-gray-50 border-gray-200 border-1 shadow-smantialiased rounded-lg p-3 outline-gray-500 [transition:background-color_350ms,color_350ms] disabled:bg-gray-50 disabled:text-gray-400 focus:outline-2"
+                        className="resize-none flex-1 text-base text-gray-600 bg-gray-50 border-gray-200 border-1 shadow-sm antialiased rounded-lg p-3 outline-gray-500 [transition:background-color_350ms,color_350ms] disabled:bg-gray-50 disabled:text-gray-400 focus:outline-2"
                         {...register("text")}
                     />
                 </div>

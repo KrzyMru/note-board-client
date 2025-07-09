@@ -101,7 +101,7 @@ const NotesContent = () => {
                                             }
                                             <p className="text-base text-left text-gray-900 font-semibold antialiased line-clamp-1">{note.title}</p>
                                             <p className="flex-1 text-sm text-left text-gray-400 antialiased line-clamp-3">{note.text}</p>
-                                            <p className="-mb-4 text-xs text-right text-gray-400 italic antialiased line-clamp-2">{noteCreationDate}</p>
+                                            <p className="-mb-4 -mr-3 text-xs text-right text-gray-400 italic antialiased line-clamp-2">{noteCreationDate}</p>
                                         </button>
                                     </li>
                                 )

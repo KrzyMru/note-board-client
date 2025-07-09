@@ -25,7 +25,7 @@ const TailwindPalette = (props: TailwindPaletteProps) => {
     }, [value]);
 
     return (
-        <ul className="grid w-fit [grid-template-columns:repeat(19,1.25rem)] bg-gray-50 rounded-lg border-[#cbd5e1] border-1 p-2 shadow-sm">
+        <ul className="grid w-fit [grid-template-columns:repeat(7,1.25rem)] xs:[grid-template-columns:repeat(19,1.25rem)] bg-gray-50 rounded-lg border-[#cbd5e1] border-1 p-2 shadow-sm">
             {
                 colors.map((color) => (
                     <button

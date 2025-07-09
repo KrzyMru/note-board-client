@@ -101,7 +101,7 @@ const NewCategoryForm = () => {
                     <p className="text-slate-700 text-xl font-semibold mb-1 tracking-wide">
                         Final look
                     </p>
-                    <div className={`min-h-35 w-75 flex items-center justify-center ${backgroundColor} rounded-xl p-5 space-y-2 shadow-sm`}>
+                    <div className={`min-h-35 w-full max-w-75 flex items-center justify-center ${backgroundColor} rounded-xl p-5 space-y-2 shadow-sm`}>
                         <p className={`text-2xl font-extrabold bg-clip-text text-transparent ${nameColor} antialiased line-clamp-1`}>{name}</p>
                     </div>
                 </div>
