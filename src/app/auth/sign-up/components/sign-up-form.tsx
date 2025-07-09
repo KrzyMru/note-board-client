@@ -31,7 +31,7 @@ const SignInForm = () => {
     return (
         <form 
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full flex-1 flex flex-col justify-between"
+            className="w-full"
         >
             <div className="flex flex-col space-y-6 mb-6 xs:space-y-3">
                 <input 
@@ -52,7 +52,7 @@ const SignInForm = () => {
                 {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
             </div>
             <button 
-                className="relative w-full bg-slate-400 shadow-sm rounded-lg p-2 outline-slate-500 [transition:filter_350ms] hover:bg-slate-500 hover:cursor-pointer disabled:pointer-events-none disabled:brightness-110 focus-visible:outline-2"
+                className="relative mt-3 w-full bg-slate-400 shadow-sm rounded-lg p-2 outline-slate-500 [transition:filter_350ms] xs:mt-0 hover:bg-slate-500 hover:cursor-pointer disabled:pointer-events-none disabled:brightness-110 focus-visible:outline-2"
                 title="Sign in"
                 type="submit"
                 disabled={loading}

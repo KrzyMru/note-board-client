@@ -3,7 +3,7 @@ import SignUpForm from "./components/sign-up-form";
 
 const SignUp = () => {
   return (
-    <div className="flex-1 flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <SignUpForm />
       <div className="flex flex-wrap gap-x-1 mt-2">
         <p className="text-xs text-gray-400 antialiased">Already have an account?</p>
