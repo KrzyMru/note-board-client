@@ -4,7 +4,7 @@ import NotePad from "../../../public/note-pad.svg";
 const Layout = ({ children, }: Readonly<{children: React.ReactNode;}>) => {
   return (
     <div className="h-screen w-screen flex justify-center items-center bg-gradient-to-br from-[#fdfdfc] via-[#fef6e6] to-[#fbead1]">
-      <div className="bg-white p-6 rounded-xl shadow-xl">
+      <div className="bg-white p-6 flex flex-col rounded-xl shadow-xl w-full h-full xs:max-w-80 xs:h-auto">
         <div className="flex flex-col items-center mb-8">
           <div className="bg-slate-300 p-3 mb-3 rounded-full shadow-md outline-1 outline-dashed outline-white">
             <Image 

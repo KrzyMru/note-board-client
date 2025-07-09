@@ -31,9 +31,9 @@ const SignInForm = () => {
     return (
         <form 
             onSubmit={handleSubmit(onSubmit)}
-            className="w-70"
+            className="w-full flex-1 flex flex-col justify-between"
         >
-            <div className="flex flex-col space-y-3 mb-5">
+            <div className="flex flex-col space-y-6 mb-6 xs:space-y-3">
                 <input 
                     title="Email"
                     type="email"
