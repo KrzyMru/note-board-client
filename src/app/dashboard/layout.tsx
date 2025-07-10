@@ -3,7 +3,7 @@ import MainBanner from "./components/main-banner";
 
 const Layout = ({ children, }: Readonly<{children: React.ReactNode;}>) => {
   return (
-    <div className="h-screen w-screen bg-gradient-to-br from-[#fdfdfc] via-[#fef6e6] to-[#fbead1] md:p-10">
+    <div className="h-dvh w-dvw bg-gradient-to-br from-[#fdfdfc] via-[#fef6e6] to-[#fbead1] md:p-10">
       <div className="h-full w-full flex flex-col rounded-none shadow-xl bg-white overflow-auto md:flex-row md:rounded-xl">
 
         <div className="flex flex-row space-x-6 md:flex-col">
