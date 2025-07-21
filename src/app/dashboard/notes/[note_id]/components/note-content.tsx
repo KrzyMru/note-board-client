@@ -93,20 +93,20 @@ const NoteContent = ({ noteId }: { noteId: number }) => {
                     type="button"
                     onClick={() => router.push(`/dashboard/categories/${categorySnippet.id}`)}
                 >
-                    <p className={`${categorySnippet.nameColor} bg-clip-text text-transparent text-lg text-center font-extrabold antialiased`}>{categorySnippet.name}</p>
+                    <p className={`${categorySnippet.nameColor} bg-clip-text text-transparent text-lg text-center font-extrabold`}>{categorySnippet.name}</p>
                 </button>
                 :
                 <div className="bg-[#f0f4ff] rounded-lg p-2 outline-none">
-                    <p className="text-lg text-gray-400 text-center font-extrabold antialiased">No category</p>
+                    <p className="text-lg text-gray-400 text-center font-extrabold">No category</p>
                 </div>
             }
             </div>
             <div className="mt-5">
-                <p className="text-xs text-gray-400 italic antialiased">{noteCreationDate}</p>
-                <h1 className="text-4xl text-gray-900 font-semibold antialiased">{note.title}</h1>
+                <p className="text-xs text-gray-400 italic">{noteCreationDate}</p>
+                <h1 className="text-4xl text-gray-900 font-semibold">{note.title}</h1>
             </div>
             <div className="flex-1 mt-5">
-                <p className="text-base text-gray-400 antialiased">{note.text}</p>
+                <p className="text-base text-gray-400">{note.text}</p>
             </div>  
             <ul className="flex justify-end space-x-5 pt-5 pb-8 px-4">
                 {

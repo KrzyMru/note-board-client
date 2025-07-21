@@ -56,7 +56,7 @@ const NewCategoryForm = () => {
                         title="Name"
                         type="text"
                         placeholder="Name"
-                        className="text-base text-gray-600 bg-gray-50 border-gray-200 border-1 shadow-sm antialiased rounded-lg p-3 outline-gray-500 focus:outline-2"
+                        className="text-base text-gray-600 bg-gray-50 border-gray-200 border-1 shadow-sm rounded-lg p-3 outline-gray-500 focus:outline-2"
                         {...register("name", { required: "Name is required" })}
                     />
                     {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
@@ -102,7 +102,7 @@ const NewCategoryForm = () => {
                         Final look
                     </p>
                     <div className={`min-h-35 w-full max-w-75 flex items-center justify-center ${backgroundColor} rounded-xl p-5 space-y-2 shadow-sm`}>
-                        <p className={`text-2xl font-extrabold bg-clip-text text-transparent ${nameColor} antialiased line-clamp-1`}>{name}</p>
+                        <p className={`text-2xl font-extrabold bg-clip-text text-transparent ${nameColor} line-clamp-1`}>{name}</p>
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@ const NewCategoryForm = () => {
                     type="submit"
                     disabled={loading}
                 >
-                    <p className={`text-base text-white font-bold antialiased font-mono uppercase tracking-wide [transition:opacity_350ms] ${loading ? "opacity-0" : "opacity-100"}`}>Submit</p>
+                    <p className={`text-base text-white font-bold font-mono uppercase tracking-wide [transition:opacity_350ms] ${loading ? "opacity-0" : "opacity-100"}`}>Submit</p>
                     <Image 
                         src={LoadingLoop}
                         alt="Loading"

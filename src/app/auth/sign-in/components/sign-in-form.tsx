@@ -38,7 +38,7 @@ const SignInForm = () => {
                     title="Email"
                     type="email"
                     placeholder="Email"
-                    className="shadow-sm text-sm text-gray-500 antialiased bg-gray-100 rounded-lg p-3 outline-gray-400 focus:outline-2"
+                    className="shadow-sm text-sm text-gray-500 bg-gray-100 rounded-lg p-3 outline-gray-400 focus:outline-2"
                     {...register("email", { required: "Email is required" })}
                 />
                 {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
@@ -46,7 +46,7 @@ const SignInForm = () => {
                     title="Password"
                     type="password"
                     placeholder="Password"
-                    className="shadow-sm text-sm text-gray-500 antialiased bg-gray-100 rounded-lg p-3 outline-gray-400 focus:outline-2"
+                    className="shadow-sm text-sm text-gray-500 bg-gray-100 rounded-lg p-3 outline-gray-400 focus:outline-2"
                     {...register("password", { required: "Password is required" })}
                 />
                 {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
@@ -57,7 +57,7 @@ const SignInForm = () => {
                 type="submit"
                 disabled={loading}
             >
-                <p className={`text-sm font-bold text-white antialiased [transition:opacity_350ms] ${loading ? "opacity-0" : "opacity-100"}`}>Sign in</p>
+                <p className={`text-sm font-bold text-white [transition:opacity_350ms] ${loading ? "opacity-0" : "opacity-100"}`}>Sign in</p>
                 <Image 
                     src={LoadingLoop}
                     alt="Loading"

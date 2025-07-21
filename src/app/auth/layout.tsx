@@ -13,7 +13,7 @@ const Layout = ({ children, }: Readonly<{children: React.ReactNode;}>) => {
               className="size-[32px]"
             />
           </div>
-          <p className="text-2xl text-slate-400 line-clamp-1 antialiased">Note Board</p>
+          <p className="text-2xl text-slate-400 line-clamp-1">Note Board</p>
         </div>
         {children}
       </div>

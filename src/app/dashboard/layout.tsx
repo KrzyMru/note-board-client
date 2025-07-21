@@ -11,7 +11,7 @@ const Layout = ({ children, }: Readonly<{children: React.ReactNode;}>) => {
             <MainBanner />
           </div>
           <div className="mb-4 pl-10 hidden md:block">
-            <p className="text-base font-semibold antialiased line-clamp-1 text-gray-300">Menu</p> 
+            <p className="text-base font-semibold line-clamp-1 text-gray-300">Menu</p> 
           </div>       
           <NavigationBar />
         </div>

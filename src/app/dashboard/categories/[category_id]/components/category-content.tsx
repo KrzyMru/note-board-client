@@ -59,12 +59,12 @@ const CategoryContent = ({ categoryId }: { categoryId: number }) => {
     return (
         <div className="flex-1 flex flex-col overflow-y-auto">
             <div className={`mt-8 py-1 flex items-center ${category.backgroundColor} rounded-lg px-2`}>
-                <h1 className={`text-4xl text-gray-900 font-semibold antialiased py-1 bg-clip-text text-transparent ${category.nameColor}`}>{category.name}</h1>
+                <h1 className={`text-4xl text-gray-900 font-semibold py-1 bg-clip-text text-transparent ${category.nameColor}`}>{category.name}</h1>
             </div>
             <ul className="mt-5 flex-1 grid auto-rows-min grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2 py-2 px-2 overflow-auto">
                 {
                     noteSnippets.length === 0 ?
-                    <p className="text-base text-gray-400 antialiased col-span-full">This category has no assigned notes yet</p>
+                    <p className="text-base text-gray-400 col-span-full">This category has no assigned notes yet</p>
                     :
                     noteSnippets.map((note) => {
                         const noteCreationDate = new Date(note.creationDate).toLocaleString("en-US", {
@@ -85,9 +85,9 @@ const CategoryContent = ({ categoryId }: { categoryId: number }) => {
                                             <div className="size-2 shadow-sm rounded-full bg-black"></div>
                                         </div>
                                     }
-                                    <p className="text-base text-left text-gray-900 font-semibold antialiased line-clamp-1">{note.title}</p>
-                                    <p className="flex-1 text-sm text-left text-gray-400 antialiased line-clamp-3">{note.text}</p>
-                                    <p className="-mb-4 -mr-3 text-xs text-right text-gray-400 italic antialiased line-clamp-2">{noteCreationDate}</p>
+                                    <p className="text-base text-left text-gray-900 font-semibold line-clamp-1">{note.title}</p>
+                                    <p className="flex-1 text-sm text-left text-gray-400 line-clamp-3">{note.text}</p>
+                                    <p className="-mb-4 -mr-3 text-xs text-right text-gray-400 italic line-clamp-2">{noteCreationDate}</p>
                                 </button>
                             </li>
                         );

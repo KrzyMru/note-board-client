@@ -47,7 +47,7 @@ const NotesContent = () => {
                 />
             </div>
             <div className="flex flex-wrap justify-between px-2 mb-5 md:px-10">
-                <h1 className="text-4xl text-gray-900 font-semibold antialiased">Notes</h1>
+                <h1 className="text-4xl text-gray-900 font-semibold">Notes</h1>
                 <ul className="flex justify-end items-center space-x-5">
                     <button 
                         className="bg-gray-100 rounded-full p-3 shrink-0 outline-gray-500 hover:shadow-sm hover:cursor-pointer focus-visible:outline-2"
@@ -99,9 +99,9 @@ const NotesContent = () => {
                                                     <div className="size-2 shadow-sm rounded-full bg-black"></div>
                                                 </div>
                                             }
-                                            <p className="text-base text-left text-gray-900 font-semibold antialiased line-clamp-1">{note.title}</p>
-                                            <p className="flex-1 text-sm text-left text-gray-400 antialiased line-clamp-3">{note.text}</p>
-                                            <p className="-mb-4 -mr-3 text-xs text-right text-gray-400 italic antialiased line-clamp-2">{noteCreationDate}</p>
+                                            <p className="text-base text-left text-gray-900 font-semibold line-clamp-1">{note.title}</p>
+                                            <p className="flex-1 text-sm text-left text-gray-400 line-clamp-3">{note.text}</p>
+                                            <p className="-mb-4 -mr-3 text-xs text-right text-gray-400 italic line-clamp-2">{noteCreationDate}</p>
                                         </button>
                                     </li>
                                 )

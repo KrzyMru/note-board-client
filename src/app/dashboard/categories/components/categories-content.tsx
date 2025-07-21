@@ -48,7 +48,7 @@ const CategoriesContent = () => {
                 />
             </div>
             <div className="flex flex-wrap justify-between px-2 mb-5 md:px-10">
-                <h1 className="text-4xl text-gray-900 font-semibold antialiased">Categories</h1>
+                <h1 className="text-4xl text-gray-900 font-semibold">Categories</h1>
                 <ul className="flex justify-end items-center space-x-5">
                     <button 
                         className="bg-gray-100 rounded-full p-3 shrink-0 outline-gray-500 hover:shadow-sm hover:cursor-pointer focus-visible:outline-2"
@@ -81,7 +81,7 @@ const CategoriesContent = () => {
                                     type="button"
                                     onClick={() => router.push(`/dashboard/categories/${category.id}`)}
                                 >
-                                    <p className={`text-2xl font-extrabold bg-clip-text text-transparent ${category.nameColor} antialiased line-clamp-1`}>{category.name}</p>
+                                    <p className={`text-2xl font-extrabold bg-clip-text text-transparent ${category.nameColor} line-clamp-1`}>{category.name}</p>
                                 </button>
                             </li>
                         ))

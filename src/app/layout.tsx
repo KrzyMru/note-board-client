@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children, }: Readonly<{children: React.ReactNode;}>) => {
   return (
     <html lang="en">
-      <body>
+      <body className="antialiased">
           {children}
           <Toaster position="bottom-right" />
       </body>

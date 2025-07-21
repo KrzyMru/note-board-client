@@ -77,7 +77,7 @@ const NewNoteForm = () => {
                         type="text"
                         placeholder="Title"
                         disabled={loadingSubmit}
-                        className="text-base text-gray-600 bg-gray-50 border-gray-200 border-1 shadow-sm antialiased rounded-lg p-3 outline-gray-500 [transition:background-color_350ms,color_350ms] disabled:bg-gray-50 disabled:text-gray-400 focus:outline-2"
+                        className="text-base text-gray-600 bg-gray-50 border-gray-200 border-1 shadow-sm rounded-lg p-3 outline-gray-500 [transition:background-color_350ms,color_350ms] disabled:bg-gray-50 disabled:text-gray-400 focus:outline-2"
                         {...register("title", { required: "Title is required" })}
                     />
                     {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
@@ -94,7 +94,7 @@ const NewNoteForm = () => {
                         title="Text"
                         placeholder="Text"
                         disabled={loadingSubmit}
-                        className="resize-none flex-1 text-base text-gray-600 bg-gray-50 border-gray-200 border-1 shadow-sm antialiased rounded-lg p-3 outline-gray-500 [transition:background-color_350ms,color_350ms] disabled:bg-gray-50 disabled:text-gray-400 focus:outline-2"
+                        className="resize-none flex-1 text-base text-gray-600 bg-gray-50 border-gray-200 border-1 shadow-sm rounded-lg p-3 outline-gray-500 [transition:background-color_350ms,color_350ms] disabled:bg-gray-50 disabled:text-gray-400 focus:outline-2"
                         {...register("text")}
                     />
                 </div>
@@ -123,9 +123,9 @@ const NewNoteForm = () => {
                                     >
                                         {
                                             selectedCategory ? 
-                                            <p className={`${selectedCategory.nameColor} bg-clip-text text-transparent text-lg text-center font-extrabold antialiased`}>{selectedCategory.name}</p>
+                                            <p className={`${selectedCategory.nameColor} bg-clip-text text-transparent text-lg text-center font-extrabold`}>{selectedCategory.name}</p>
                                             :
-                                            <p className="text-gray-400 text-lg text-center font-extrabold antialiased">No category</p>
+                                            <p className="text-gray-400 text-lg text-center font-extrabold">No category</p>
                                         }
                                     </ListboxButton>
                                     <ListboxOptions 
@@ -138,7 +138,7 @@ const NewNoteForm = () => {
                                                 title="Select no category"
                                                 className="bg-[#f0f4ff] p-3 outline-none hover:cursor-pointer"
                                             >
-                                                <p className="text-gray-400 text-lg text-center font-extrabold antialiased">No category</p>
+                                                <p className="text-gray-400 text-lg text-center font-extrabold">No category</p>
                                         </ListboxOption>
                                         {categorySnippets.map((category) => (
                                             <ListboxOption 
@@ -147,7 +147,7 @@ const NewNoteForm = () => {
                                                 title={`Select ${category.name}`}
                                                 className={`${category.backgroundColor} p-3 outline-none hover:cursor-pointer`}
                                             >
-                                                <p className={`${category.nameColor} bg-clip-text text-transparent text-lg text-center font-extrabold antialiased`}>{category.name}</p>
+                                                <p className={`${category.nameColor} bg-clip-text text-transparent text-lg text-center font-extrabold`}>{category.name}</p>
                                             </ListboxOption>
                                         ))}
                                     </ListboxOptions>
@@ -164,7 +164,7 @@ const NewNoteForm = () => {
                     type="submit"
                     disabled={loadingSubmit || loadingCategories}
                 >
-                    <p className={`text-base text-white font-bold antialiased font-mono uppercase tracking-wide [transition:opacity_350ms] ${loadingSubmit ? "opacity-0" : "opacity-100"}`}>Submit</p>
+                    <p className={`text-base text-white font-bold font-mono uppercase tracking-wide [transition:opacity_350ms] ${loadingSubmit ? "opacity-0" : "opacity-100"}`}>Submit</p>
                     <Image 
                         src={LoadingLoop}
                         alt="Loading"

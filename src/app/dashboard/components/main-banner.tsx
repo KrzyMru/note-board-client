@@ -11,7 +11,7 @@ const MainBanner = () => {
                     className="size-[42px]"
                 />
             </div>
-            <p className="text-xl font-bold text-gray-900 antialiased line-clamp-1">Note-Board</p>
+            <p className="text-xl font-bold text-gray-900 line-clamp-1">Note-Board</p>
         </div>
     );
 }
